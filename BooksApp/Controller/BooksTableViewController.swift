@@ -61,6 +61,8 @@ class BooksTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BookCell", for: indexPath) as! BookCell
+        cell.delegate = self
+        cell.indexPath = indexPath
         let thumbnailURL = URL(string: books[indexPath.row].thumbnailURL)
         if let url = thumbnailURL {
             cell.bookThumbnail.sd_imageIndicator = SDWebImageActivityIndicator.gray
@@ -79,5 +81,11 @@ extension BooksTableViewController: UISearchBarDelegate {
             searchBook(searchBar.text!)
         }
         view.endEditing(true)
+    }
+}
+
+extension BooksTableViewController: ButtonDelegate {
+    func addToFavoritesTapped(at index: IndexPath) {
+        print(books[index.row])
     }
 }

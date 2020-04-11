@@ -29,7 +29,7 @@ class NetworkManager {
                         let thumbnailURL = object["volumeInfo"]["imageLinks"]["thumbnail"].stringValue
                         let publisher = object["volumeInfo"]["publisher"].stringValue
                         let description = object["volumeInfo"]["description"].stringValue
-                        let book = Book(title: title, author: author, thumbnailURL: thumbnailURL, publisher: publisher, description: description)
+                        let book = Book(title: title, author: author, thumbnailURL: thumbnailURL, publisher: publisher, description: description, isFavorite: false)
                         booksArray.append(book)
                     }
                     completion(true, booksArray)

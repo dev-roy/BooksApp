@@ -156,7 +156,6 @@
 				3AC5C4A12441527F002008AD /* Assets.xcassets */,
 				3AC5C4A32441527F002008AD /* LaunchScreen.storyboard */,
 				3AC5C4A62441527F002008AD /* Info.plist */,
-				3AC5C49E24415273002008AD /* BooksApp.xcdatamodeld */,
 			);
 			path = BooksApp;
 			sourceTree = "<group>";
@@ -182,6 +181,7 @@
 		3AC5C4C824415768002008AD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3AC5C49E24415273002008AD /* BooksApp.xcdatamodeld */,
 				33BD571D2441673A00599E30 /* Book.swift */,
 			);
 			path = Model;
