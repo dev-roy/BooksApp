@@ -8,19 +8,23 @@
 
 import UIKit
 import SDWebImage
+import CoreData
 
 class BooksTableViewController: UITableViewController {
     
+    // MARK: - Properties
     @IBOutlet weak var searchBar: UISearchBar!
     let cellId = "BookCell"
     var books = [Book]()
     var bookModels = [BookModel]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
+    // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
         loadTableView()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        loadBooks()
     }
     
     func loadTableView() {
@@ -34,15 +38,7 @@ class BooksTableViewController: UITableViewController {
         }
     }
     
-    func saveBook() {
-        do {
-            try context.save()
-            print("saved")
-        } catch {
-            print("Error saving context \(error)")
-        }
-    }
-    
+    // MARK: - Handlers
     func searchBook(_ bookTitle: String) {
         books = []
         NetworkManager.shared.fetchBooks(bookTitle: bookTitle) { (success, books) in
@@ -62,6 +58,25 @@ class BooksTableViewController: UITableViewController {
                 let controller = segue.destination as! BookDetailViewController
                 controller.detailBook = book
             }
+        }
+    }
+    
+    // MARK: - CoreData methods
+    func saveContext() {
+        do {
+            try context.save()
+            print("saved")
+        } catch {
+            print("Error saving context \(error)")
+        }
+    }
+    
+    func loadBooks() {
+        let request: NSFetchRequest<BookModel> = BookModel.fetchRequest()
+        do {
+            bookModels = try context.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
         }
     }
 
@@ -87,6 +102,9 @@ class BooksTableViewController: UITableViewController {
     }
 }
 
+// MARK: Extensions
+
+// MARK: - SearchBar Methods
 extension BooksTableViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if searchBar.text != "" {
@@ -96,26 +114,16 @@ extension BooksTableViewController: UISearchBarDelegate {
     }
 }
 
-extension BooksTableViewController: ButtonDelegate {
-
-    func addToFavoritesTapped(at indexPath: IndexPath, isFavorite: Bool) {
-        if isFavorite {
-            let bookModel = BookModel(context: context)
-            bookModel.title = books[indexPath.row].title
-            bookModel.author = books[indexPath.row].author
-            bookModel.publisher = books[indexPath.row].publisher
-            bookModel.thumbnailURL = books[indexPath.row].thumbnailURL
-            bookModel.bookDescription = books[indexPath.row].description
-            bookModel.isFavorite = true
-            //bookModels.append(bookModel)
-            saveBook()
-        } else {
-            //bookModels.remove(at: indexPath.row)
-            //context.delete(bookModels[indexPath.row])
-            print("not favorite")
-        }
-        
-        print()
-        
+// MARK: - CellButton Methods
+extension BooksTableViewController: AddFavoriteDelegate {
+    func addToFavoritesTapped(at indexPath: IndexPath) {
+        let bookModel = BookModel(context: context)
+        bookModel.title = books[indexPath.row].title
+        bookModel.author = books[indexPath.row].author
+        bookModel.publisher = books[indexPath.row].publisher
+        bookModel.thumbnailURL = books[indexPath.row].thumbnailURL
+        bookModel.bookDescription = books[indexPath.row].description
+        bookModel.isFavorite = true
+        saveContext()
     }
 }

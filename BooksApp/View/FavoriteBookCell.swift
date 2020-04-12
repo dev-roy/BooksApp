@@ -1,27 +1,27 @@
 //
-//  BookCell.swift
+//  FavoriteBookCell.swift
 //  BooksApp
 //
-//  Created by Rodrigo Buendia Ramos on 4/11/20.
+//  Created by Rodrigo Buendia Ramos on 4/12/20.
 //  Copyright © 2020 Field Employee. All rights reserved.
 //
 
 import UIKit
 
-protocol AddFavoriteDelegate {
-    func addToFavoritesTapped(at indexPath: IndexPath)
+protocol RemoveFavoriteDelegate {
+    func removeFavoriteTapped(at indexPath: IndexPath)
 }
 
-class BookCell: UITableViewCell {
+class FavoriteBookCell: UITableViewCell {
     
     // MARK: - Properties
     @IBOutlet weak var bookThumbnail: UIImageView!
     @IBOutlet weak var bookTitle: UILabel!
     @IBOutlet weak var bookAuthor: UILabel!
     @IBOutlet weak var bookPublisher: UILabel!
-    @IBOutlet weak var favoritesButton: UIButton!
-    var delegate: AddFavoriteDelegate!
+    var delegate: RemoveFavoriteDelegate!
     var indexPath: IndexPath!
+    var isFavorite = false
     
     // MARK: - Init
     override func awakeFromNib() {
@@ -31,12 +31,10 @@ class BookCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-
+    
     // MARK: - Handlers
-    @IBAction func addToFavoritesTapped(_ sender: Any) {
-        favoritesButton.setTitle("Added", for: .normal)
-        favoritesButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-        self.delegate.addToFavoritesTapped(at: indexPath)
-        favoritesButton.isEnabled = false
+    @IBAction func removeFavoritesTapped(_ sender: Any) {
+        self.delegate.removeFavoriteTapped(at: indexPath)
     }
+    
 }

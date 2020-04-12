@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		33704B5D244366D7009D63C7 /* FavoriteBookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33704B5C244366D7009D63C7 /* FavoriteBookCell.swift */; };
 		33BD571A2441636200599E30 /* FavoritesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BD57192441636200599E30 /* FavoritesTableViewController.swift */; };
 		33BD571C244163B100599E30 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BD571B244163B100599E30 /* NetworkManager.swift */; };
 		33BD571E2441673A00599E30 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BD571D2441673A00599E30 /* Book.swift */; };
@@ -46,6 +47,7 @@
 /* Begin PBXFileReference section */
 		012FEA214FAF7CA6962C9C1F /* Pods-BooksApp-BooksAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BooksApp-BooksAppUITests.release.xcconfig"; path = "Target Support Files/Pods-BooksApp-BooksAppUITests/Pods-BooksApp-BooksAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		255ED179EE9D6DDA24C84C1D /* Pods_BooksAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BooksAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		33704B5C244366D7009D63C7 /* FavoriteBookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteBookCell.swift; sourceTree = "<group>"; };
 		33BD57192441636200599E30 /* FavoritesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesTableViewController.swift; sourceTree = "<group>"; };
 		33BD571B244163B100599E30 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		33BD571D2441673A00599E30 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				33BD571F244226C900599E30 /* BookCell.swift */,
+				33704B5C244366D7009D63C7 /* FavoriteBookCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -461,6 +464,7 @@
 				33BD571E2441673A00599E30 /* Book.swift in Sources */,
 				3AC5C4A024415273002008AD /* BooksApp.xcdatamodeld in Sources */,
 				3AC5C4CC244157C4002008AD /* BooksTableViewController.swift in Sources */,
+				33704B5D244366D7009D63C7 /* FavoriteBookCell.swift in Sources */,
 				3AC5C49A24415273002008AD /* BookDetailViewController.swift in Sources */,
 				33BD571C244163B100599E30 /* NetworkManager.swift in Sources */,
 				33BD571A2441636200599E30 /* FavoritesTableViewController.swift in Sources */,

@@ -12,6 +12,7 @@ import SwiftyJSON
 
 class NetworkManager {
     static let shared = NetworkManager()
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     func fetchBooks(bookTitle: String, completion: @escaping(_ success: Bool, _ arr: [Book]) -> ()) {
         DispatchQueue.global(qos: .background).async {

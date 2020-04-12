@@ -25,7 +25,6 @@ class BookDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        // Do any additional setup after loading the view.
     }
     
     func configureView() {
@@ -50,7 +49,5 @@ class BookDetailViewController: UIViewController {
             }
         }
     }
-
-
 }
 
