@@ -84,7 +84,7 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                     <connections>
-                                                        <action selector="removeFavoritesTapped:" destination="9XG-XC-0Zk" eventType="touchUpInside" id="IJ1-I8-iqP"/>
+                                                        <action selector="removeFavoritesTapped:" destination="9XG-XC-0Zk" eventType="touchUpInside" id="Vel-L1-Hml"/>
                                                     </connections>
                                                 </button>
                                             </subviews>

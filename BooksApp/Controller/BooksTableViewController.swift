@@ -25,8 +25,31 @@ class BooksTableViewController: UITableViewController {
         loadTableView()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         loadBooks()
+        
+            // Add Observer
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(managedObjectContextObjectsDidChange), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: context)
+        
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        saveContext()
+    }
+    
+    @objc func managedObjectContextObjectsDidChange(notification: NSNotification) {
+        guard let userInfo = notification.userInfo else { return }
+//        for(_,update) in userInfo {
+//            print(update["NSUpdatedO"])
+//        }
+//        print(userInfo[NSUpdatedObjectsKey] as? Set<BookModel>)
+//        if let updates = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject> {
+//            for update in updates {
+//                print(update.changedValues())
+//            }
+//        }
+
+    }
     func loadTableView() {
         NetworkManager.shared.fetchBooks(bookTitle: "Harry Potter") { (success, books) in
             if success {
@@ -116,14 +139,23 @@ extension BooksTableViewController: UISearchBarDelegate {
 
 // MARK: - CellButton Methods
 extension BooksTableViewController: AddFavoriteDelegate {
-    func addToFavoritesTapped(at indexPath: IndexPath) {
-        let bookModel = BookModel(context: context)
-        bookModel.title = books[indexPath.row].title
-        bookModel.author = books[indexPath.row].author
-        bookModel.publisher = books[indexPath.row].publisher
-        bookModel.thumbnailURL = books[indexPath.row].thumbnailURL
-        bookModel.bookDescription = books[indexPath.row].description
-        bookModel.isFavorite = true
-        saveContext()
+    func addToFavoritesTapped(at indexPath: IndexPath, isFavorite: Bool) {
+        if isFavorite {
+            let bookModel = BookModel(context: context)
+            bookModel.title = books[indexPath.row].title
+            bookModel.author = books[indexPath.row].author
+            bookModel.publisher = books[indexPath.row].publisher
+            bookModel.thumbnailURL = books[indexPath.row].thumbnailURL
+            bookModel.bookDescription = books[indexPath.row].description
+            bookModel.isFavorite = true
+        } else {
+            loadBooks()
+            for item in bookModels {
+                if item.title == books[indexPath.row].title {
+                    context.delete(item)
+                    print("delete", item)
+                }
+            }
+        }
     }
 }

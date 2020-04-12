@@ -91,6 +91,7 @@ extension FavoritesTableViewController: RemoveFavoriteDelegate {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
-        print(indexPath.row)
     }
 }
+
+

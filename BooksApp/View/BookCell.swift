@@ -9,7 +9,7 @@
 import UIKit
 
 protocol AddFavoriteDelegate {
-    func addToFavoritesTapped(at indexPath: IndexPath)
+    func addToFavoritesTapped(at indexPath: IndexPath, isFavorite: Bool)
 }
 
 class BookCell: UITableViewCell {
@@ -22,6 +22,7 @@ class BookCell: UITableViewCell {
     @IBOutlet weak var favoritesButton: UIButton!
     var delegate: AddFavoriteDelegate!
     var indexPath: IndexPath!
+    var isFavorite = false
     
     // MARK: - Init
     override func awakeFromNib() {
@@ -34,9 +35,16 @@ class BookCell: UITableViewCell {
 
     // MARK: - Handlers
     @IBAction func addToFavoritesTapped(_ sender: Any) {
-        favoritesButton.setTitle("Added", for: .normal)
-        favoritesButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-        self.delegate.addToFavoritesTapped(at: indexPath)
-        favoritesButton.isEnabled = false
+        isFavorite = !isFavorite
+        if isFavorite {
+            favoritesButton.setTitle("Added", for: .normal)
+            favoritesButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            self.delegate.addToFavoritesTapped(at: indexPath, isFavorite: true)
+            //favoritesButton.isEnabled = false
+        } else {
+            favoritesButton.setTitle("Add to favorites", for: .normal)
+            favoritesButton.setImage(UIImage(systemName: "star"), for: .normal)
+            self.delegate.addToFavoritesTapped(at: indexPath, isFavorite: false)
+        }
     }
 }
