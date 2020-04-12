@@ -10,14 +10,17 @@ import UIKit
 import SDWebImage
 
 class BooksTableViewController: UITableViewController {
+    
+    @IBOutlet weak var searchBar: UISearchBar!
     let cellId = "BookCell"
     var books = [Book]()
-    @IBOutlet weak var searchBar: UISearchBar!
+    var bookModels = [BookModel]()
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //tableView.register(BookCell.self, forCellReuseIdentifier: cellId)
         loadTableView()
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
     func loadTableView() {
@@ -28,6 +31,15 @@ class BooksTableViewController: UITableViewController {
                     self.tableView.reloadData()
                 }
             }
+        }
+    }
+    
+    func saveBook() {
+        do {
+            try context.save()
+            print("saved")
+        } catch {
+            print("Error saving context \(error)")
         }
     }
     
@@ -60,7 +72,7 @@ class BooksTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "BookCell", for: indexPath) as! BookCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! BookCell
         cell.delegate = self
         cell.indexPath = indexPath
         let thumbnailURL = URL(string: books[indexPath.row].thumbnailURL)
@@ -85,7 +97,25 @@ extension BooksTableViewController: UISearchBarDelegate {
 }
 
 extension BooksTableViewController: ButtonDelegate {
-    func addToFavoritesTapped(at index: IndexPath) {
-        print(books[index.row])
+
+    func addToFavoritesTapped(at indexPath: IndexPath, isFavorite: Bool) {
+        if isFavorite {
+            let bookModel = BookModel(context: context)
+            bookModel.title = books[indexPath.row].title
+            bookModel.author = books[indexPath.row].author
+            bookModel.publisher = books[indexPath.row].publisher
+            bookModel.thumbnailURL = books[indexPath.row].thumbnailURL
+            bookModel.bookDescription = books[indexPath.row].description
+            bookModel.isFavorite = true
+            //bookModels.append(bookModel)
+            saveBook()
+        } else {
+            //bookModels.remove(at: indexPath.row)
+            //context.delete(bookModels[indexPath.row])
+            print("not favorite")
+        }
+        
+        print()
+        
     }
 }

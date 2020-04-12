@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ButtonDelegate {
-    func addToFavoritesTapped(at index: IndexPath)
+    func addToFavoritesTapped(at indexPath: IndexPath, isFavorite: Bool)
 }
 
 class BookCell: UITableViewCell {
@@ -39,10 +39,12 @@ class BookCell: UITableViewCell {
         if isFavorite {
             favoritesButton.setTitle("Added", for: .normal)
             favoritesButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            self.delegate.addToFavoritesTapped(at: indexPath, isFavorite: true)
         } else {
            favoritesButton.setTitle("Add to favorites", for: .normal)
            favoritesButton.setImage(UIImage(systemName: "star"), for: .normal)
+            self.delegate.addToFavoritesTapped(at: indexPath, isFavorite: false)
         }
-        self.delegate.addToFavoritesTapped(at: indexPath)
+        
     }
 }

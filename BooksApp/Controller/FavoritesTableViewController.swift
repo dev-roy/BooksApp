@@ -7,40 +7,48 @@
 //
 
 import UIKit
+import CoreData
+import SDWebImage
 
 class FavoritesTableViewController: UITableViewController {
-
+    
+    var books = [BookModel]()
+    let cellId = "BookCell"
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        loadBooks()
+    }
+    
+    func loadBooks() {
+        let request: NSFetchRequest<BookModel> = BookModel.fetchRequest()
+        do {
+            books = try context.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
+        }
     }
 
     // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return books.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! BookCell
+        let thumbnailURL = URL(string: books[indexPath.row].thumbnailURL ?? "")
+        if let url = thumbnailURL {
+            cell.bookThumbnail.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            cell.bookThumbnail.sd_setImage(with: url, placeholderImage: UIImage(named: ""))
+        }
+        cell.bookTitle.text = books[indexPath.row].title
+        cell.bookAuthor.text = books[indexPath.row].author
+        cell.bookPublisher.text = books[indexPath.row].publisher
+        cell.favoritesButton.isHidden = true
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
