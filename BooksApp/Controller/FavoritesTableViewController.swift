@@ -37,7 +37,12 @@ class FavoritesTableViewController: UITableViewController {
                 guard let thumbnailURL = books[indexPath.row].thumbnailURL else { return }
                 guard let publisher = books[indexPath.row].publisher else { return }
                 guard let description = books[indexPath.row].bookDescription else { return }
-                let book = Book(title: title, author: author, thumbnailURL: thumbnailURL, publisher: publisher, description: description, isFavorite: true)
+                let book = Book()
+                book.title = title
+                book.author = author
+                book.publisher = publisher
+                book.thumbnailURL = thumbnailURL
+                book.description = description
                 let controller = segue.destination as! BookDetailViewController
                 controller.detailBook = book
             }

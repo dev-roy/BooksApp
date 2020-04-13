@@ -24,13 +24,14 @@ class NetworkManager {
                     let subjson: JSON = json["items"]
                     var booksArray = [Book]()
                     for (_, object) in subjson {
-                        let title = object["volumeInfo"]["title"].stringValue
-                        let authorsArray = object["volumeInfo"]["authors"].arrayObject as! [String]
-                        let author = authorsArray.joined(separator: ", ")
-                        let thumbnailURL = object["volumeInfo"]["imageLinks"]["thumbnail"].stringValue
-                        let publisher = object["volumeInfo"]["publisher"].stringValue
-                        let description = object["volumeInfo"]["description"].stringValue
-                        let book = Book(title: title, author: author, thumbnailURL: thumbnailURL, publisher: publisher, description: description, isFavorite: false)
+                        let book = Book ()
+                        book.title = object["volumeInfo"]["title"].stringValue
+                        let authorsArray = object["volumeInfo"]["authors"].arrayObject as? [String] ?? [""]
+                        book.author = authorsArray.joined(separator: ", ")
+                        book.thumbnailURL = object["volumeInfo"]["imageLinks"]["thumbnail"].stringValue
+                        book.publisher = object["volumeInfo"]["publisher"].stringValue
+                        book.description = object["volumeInfo"]["description"].stringValue
+                        
                         booksArray.append(book)
                     }
                     completion(true, booksArray)

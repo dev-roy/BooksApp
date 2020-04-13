@@ -9,8 +9,9 @@
 import UIKit
 import SDWebImage
 import CoreData
+import NVActivityIndicatorView
 
-class BooksTableViewController: UITableViewController {
+class BooksTableViewController: UITableViewController, NVActivityIndicatorViewable {
     
     // MARK: - Properties
     @IBOutlet weak var searchBar: UISearchBar!
@@ -22,41 +23,29 @@ class BooksTableViewController: UITableViewController {
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadTableView()
+        //loadTableView()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        loadBooks()
-        
-            // Add Observer
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(managedObjectContextObjectsDidChange), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: context)
-        
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        saveContext()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //loadBooks()
+        self.filterArray(array: &self.books)
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
-    @objc func managedObjectContextObjectsDidChange(notification: NSNotification) {
-        guard let userInfo = notification.userInfo else { return }
-//        for(_,update) in userInfo {
-//            print(update["NSUpdatedO"])
-//        }
-//        print(userInfo[NSUpdatedObjectsKey] as? Set<BookModel>)
-//        if let updates = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject> {
-//            for update in updates {
-//                print(update.changedValues())
-//            }
-//        }
-
-    }
     func loadTableView() {
         NetworkManager.shared.fetchBooks(bookTitle: "Harry Potter") { (success, books) in
             if success {
                 self.books = books
+                self.filterArray(array: &self.books)
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
+            } else {
+                print("error")
             }
         }
     }
@@ -64,12 +53,18 @@ class BooksTableViewController: UITableViewController {
     // MARK: - Handlers
     func searchBook(_ bookTitle: String) {
         books = []
+        startAnimating(CGSize(width: 60, height: 60), type: NVActivityIndicatorType.ballZigZag, color: .blue)
         NetworkManager.shared.fetchBooks(bookTitle: bookTitle) { (success, books) in
             if success {
                 self.books = books
+                self.filterArray(array: &self.books)
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
+                    self.stopAnimating()
                 }
+            } else {
+                print("No results found")
+                self.stopAnimating()
             }
         }
     }
@@ -88,7 +83,6 @@ class BooksTableViewController: UITableViewController {
     func saveContext() {
         do {
             try context.save()
-            print("saved")
         } catch {
             print("Error saving context \(error)")
         }
@@ -100,6 +94,28 @@ class BooksTableViewController: UITableViewController {
             bookModels = try context.fetch(request)
         } catch {
             print("Error fetching data from context \(error)")
+        }
+    }
+    
+    func filterArray(array: inout [Book]) -> [Book] {
+        for book in array {
+            for bookModel in bookModels {
+                book.isFavorite = false
+                if book.title == bookModel.title {
+                    book.isFavorite = true
+                }
+            }
+            array.append(book)
+        }
+        return array
+    }
+    
+    func deleteMatches(at indexPath: IndexPath) {
+        loadBooks()
+        for item in bookModels {
+            if item.title == books[indexPath.row].title {
+                context.delete(item)
+            }
         }
     }
 
@@ -116,11 +132,20 @@ class BooksTableViewController: UITableViewController {
         let thumbnailURL = URL(string: books[indexPath.row].thumbnailURL)
         if let url = thumbnailURL {
             cell.bookThumbnail.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.bookThumbnail.sd_setImage(with: url, placeholderImage: UIImage(named: ""))
+            cell.bookThumbnail.sd_setImage(with: url, placeholderImage: UIImage(systemName: "clock"))
         }
         cell.bookTitle.text = books[indexPath.row].title
         cell.bookAuthor.text = "Author: \(books[indexPath.row].author)"
         cell.bookPublisher.text = "Publisher: \(books[indexPath.row].publisher)"
+        if books[indexPath.row].isFavorite {
+            cell.favoritesButton.setTitle("Added", for: .normal)
+            cell.favoritesButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            cell.isFavorite = true
+        } else {
+            cell.favoritesButton.setTitle("Add to favorites", for: .normal)
+            cell.favoritesButton.setImage(UIImage(systemName: "star"), for: .normal)
+            cell.isFavorite = false
+        }
         return cell
     }
 }
@@ -140,6 +165,7 @@ extension BooksTableViewController: UISearchBarDelegate {
 // MARK: - CellButton Methods
 extension BooksTableViewController: AddFavoriteDelegate {
     func addToFavoritesTapped(at indexPath: IndexPath, isFavorite: Bool) {
+        deleteMatches(at: indexPath)
         if isFavorite {
             let bookModel = BookModel(context: context)
             bookModel.title = books[indexPath.row].title
@@ -148,12 +174,12 @@ extension BooksTableViewController: AddFavoriteDelegate {
             bookModel.thumbnailURL = books[indexPath.row].thumbnailURL
             bookModel.bookDescription = books[indexPath.row].description
             bookModel.isFavorite = true
+            saveContext()
         } else {
             loadBooks()
             for item in bookModels {
                 if item.title == books[indexPath.row].title {
                     context.delete(item)
-                    print("delete", item)
                 }
             }
         }

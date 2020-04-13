@@ -9,6 +9,7 @@ target 'BooksApp' do
   pod 'Alamofire'
   pod 'SwiftyJSON'
   pod 'SDWebImage'
+  pod 'NVActivityIndicatorView'
 
   target 'BooksAppTests' do
     inherit! :search_paths

@@ -40,7 +40,6 @@ class BookCell: UITableViewCell {
             favoritesButton.setTitle("Added", for: .normal)
             favoritesButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
             self.delegate.addToFavoritesTapped(at: indexPath, isFavorite: true)
-            //favoritesButton.isEnabled = false
         } else {
             favoritesButton.setTitle("Add to favorites", for: .normal)
             favoritesButton.setImage(UIImage(systemName: "star"), for: .normal)
