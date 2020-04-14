@@ -12,7 +12,7 @@ import SwiftyJSON
 
 class NetworkManager {
     static let shared = NetworkManager()
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     
     func fetchBooks(bookTitle: String, completion: @escaping(_ success: Bool, _ arr: [Book]) -> ()) {
         DispatchQueue.global(qos: .background).async {
@@ -31,12 +31,12 @@ class NetworkManager {
                         book.thumbnailURL = object["volumeInfo"]["imageLinks"]["thumbnail"].stringValue
                         book.publisher = object["volumeInfo"]["publisher"].stringValue
                         book.description = object["volumeInfo"]["description"].stringValue
-                        
                         booksArray.append(book)
                     }
                     completion(true, booksArray)
                     
                 case .failure(let error):
+                    completion(false, [])
                     print(error)
                     break
                 }

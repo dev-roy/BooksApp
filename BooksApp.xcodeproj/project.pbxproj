@@ -115,6 +115,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3356DF0C24460B2000DF9442 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		33BD57182441614900599E30 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -148,10 +155,11 @@
 		3AC5C49424415273002008AD /* BooksApp */ = {
 			isa = PBXGroup;
 			children = (
-				33BD57182441614900599E30 /* Networking */,
-				3AC5C4CA24415783002008AD /* Controller */,
-				3AC5C4C924415779002008AD /* View */,
 				3AC5C4C824415768002008AD /* Model */,
+				3AC5C4C924415779002008AD /* View */,
+				3356DF0C24460B2000DF9442 /* ViewModel */,
+				3AC5C4CA24415783002008AD /* Controller */,
+				33BD57182441614900599E30 /* Networking */,
 				3AC5C49524415273002008AD /* AppDelegate.swift */,
 				3AC5C49724415273002008AD /* SceneDelegate.swift */,
 				3AC5C49B24415273002008AD /* Main.storyboard */,

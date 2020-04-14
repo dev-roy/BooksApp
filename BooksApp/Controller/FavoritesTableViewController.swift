@@ -12,10 +12,12 @@ import SDWebImage
 
 class FavoritesTableViewController: UITableViewController {
     
+    // MARK: - Properties
     var books = [BookModel]()
     let cellId = "FavoriteBookCell"
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
+    // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
         loadBooks()
@@ -29,6 +31,7 @@ class FavoritesTableViewController: UITableViewController {
         }
     }
     
+    // MARK: - Handlers
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueFromFavorite" {
             if let indexPath = tableView.indexPathForSelectedRow {
@@ -49,6 +52,7 @@ class FavoritesTableViewController: UITableViewController {
         }
     }
     
+    // MARK: - CoreData methods
     func saveContext() {
         do {
             try context.save()
@@ -79,7 +83,7 @@ class FavoritesTableViewController: UITableViewController {
         cell.indexPath = indexPath
         if let url = thumbnailURL {
             cell.bookThumbnail.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.bookThumbnail.sd_setImage(with: url, placeholderImage: UIImage(named: ""))
+            cell.bookThumbnail.sd_setImage(with: url, placeholderImage: UIImage(named: "white"))
         }
         cell.bookTitle.text = books[indexPath.row].title
         cell.bookAuthor.text = books[indexPath.row].author
@@ -88,6 +92,7 @@ class FavoritesTableViewController: UITableViewController {
     }
 }
 
+// MARK: - Extensions
 extension FavoritesTableViewController: RemoveFavoriteDelegate {
     func removeFavoriteTapped(at indexPath: IndexPath) {
         context.delete(books[indexPath.row])
@@ -96,6 +101,8 @@ extension FavoritesTableViewController: RemoveFavoriteDelegate {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+        let booksVC = self.tabBarController?.viewControllers?[0] as! BooksTableViewController
+        booksVC.removedFavorites = true
     }
 }
 

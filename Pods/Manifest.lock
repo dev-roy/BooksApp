@@ -6,12 +6,14 @@ PODS:
   - SDWebImage (5.6.1):
     - SDWebImage/Core (= 5.6.1)
   - SDWebImage/Core (5.6.1)
+  - SwiftLint (0.39.2)
   - SwiftyJSON (5.0.0)
 
 DEPENDENCIES:
   - Alamofire
   - NVActivityIndicatorView
   - SDWebImage
+  - SwiftLint
   - SwiftyJSON
 
 SPEC REPOS:
@@ -19,14 +21,16 @@ SPEC REPOS:
     - Alamofire
     - NVActivityIndicatorView
     - SDWebImage
+    - SwiftLint
     - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: 9d5c5f602928e512395b30950c5984eca840093c
   NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
   SDWebImage: 7edb9c3ea661e77a66661f7f044de8c1b55d1120
+  SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: 1a6c5efb7cec62ade5fb65e3380107a3e4105ac0
+PODFILE CHECKSUM: f8c819cfccbb6947fba5635e5441cd2ce27e5e2d
 
 COCOAPODS: 1.8.3

@@ -19,52 +19,43 @@ class BooksTableViewController: UITableViewController, NVActivityIndicatorViewab
     var books = [Book]()
     var bookModels = [BookModel]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var removedFavorites = false
+    var query = ""
     
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-        //loadTableView()
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //loadBooks()
-        self.filterArray(array: &self.books)
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-    }
-    
-    func loadTableView() {
-        NetworkManager.shared.fetchBooks(bookTitle: "Harry Potter") { (success, books) in
-            if success {
-                self.books = books
-                self.filterArray(array: &self.books)
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            } else {
-                print("error")
-            }
+        loadBooks()
+        if removedFavorites {
+            searchBook(query)
+            removedFavorites = false
         }
     }
     
     // MARK: - Handlers
     func searchBook(_ bookTitle: String) {
         books = []
-        startAnimating(CGSize(width: 60, height: 60), type: NVActivityIndicatorType.ballZigZag, color: .blue)
+        startAnimating(CGSize(width: 60, height: 60), type: NVActivityIndicatorType.ballZigZag, color: .systemGreen)
         NetworkManager.shared.fetchBooks(bookTitle: bookTitle) { (success, books) in
             if success {
                 self.books = books
-                self.filterArray(array: &self.books)
+                self.books = self.filterArray(array: &self.books)
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                     self.stopAnimating()
                 }
             } else {
-                print("No results found")
                 self.stopAnimating()
+                let alert = UIAlertController(title: "Please make sure you have internet connection", message: "", preferredStyle: .alert)
+                let action = UIAlertAction(title: "Ok", style: .default) { (action) in
+
+                }
+                alert.addAction(action)
+                self.present(alert, animated: true, completion: nil)
             }
         }
     }
@@ -100,8 +91,7 @@ class BooksTableViewController: UITableViewController, NVActivityIndicatorViewab
     func filterArray(array: inout [Book]) -> [Book] {
         for book in array {
             for bookModel in bookModels {
-                book.isFavorite = false
-                if book.title == bookModel.title {
+                if book.title == bookModel.title && book.author == bookModel.author {
                     book.isFavorite = true
                 }
             }
@@ -132,7 +122,7 @@ class BooksTableViewController: UITableViewController, NVActivityIndicatorViewab
         let thumbnailURL = URL(string: books[indexPath.row].thumbnailURL)
         if let url = thumbnailURL {
             cell.bookThumbnail.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.bookThumbnail.sd_setImage(with: url, placeholderImage: UIImage(systemName: "clock"))
+            cell.bookThumbnail.sd_setImage(with: url, placeholderImage: UIImage(named: "white"))
         }
         cell.bookTitle.text = books[indexPath.row].title
         cell.bookAuthor.text = "Author: \(books[indexPath.row].author)"
@@ -157,6 +147,7 @@ extension BooksTableViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if searchBar.text != "" {
             searchBook(searchBar.text!)
+            query = searchBar.text!
         }
         view.endEditing(true)
     }

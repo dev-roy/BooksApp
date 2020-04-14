@@ -10,6 +10,7 @@ target 'BooksApp' do
   pod 'SwiftyJSON'
   pod 'SDWebImage'
   pod 'NVActivityIndicatorView'
+  pod 'SwiftLint'
 
   target 'BooksAppTests' do
     inherit! :search_paths

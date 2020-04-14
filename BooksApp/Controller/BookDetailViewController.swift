@@ -10,7 +10,8 @@ import UIKit
 import SDWebImage
 
 class BookDetailViewController: UIViewController {
-
+    
+    // MARK: - Properties
     @IBOutlet weak var bookImage: UIImageView!
     @IBOutlet weak var bookTitle: UILabel!
     @IBOutlet weak var bookAuthor: UILabel!
@@ -22,6 +23,7 @@ class BookDetailViewController: UIViewController {
         }
     }
     
+    // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -32,7 +34,7 @@ class BookDetailViewController: UIViewController {
             if let thumbmnail = bookImage {
                 let thumbnailURL = URL(string: book.thumbnailURL)
                 if let url = thumbnailURL {
-                    thumbmnail.sd_setImage(with: url, completed: nil)
+                    thumbmnail.sd_setImage(with: url, placeholderImage: UIImage(named: "white"))
                 }
             }
             if let title = bookTitle {
