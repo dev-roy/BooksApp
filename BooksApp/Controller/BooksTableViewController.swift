@@ -42,18 +42,24 @@ class BooksTableViewController: UITableViewController, NVActivityIndicatorViewab
         startAnimating(CGSize(width: 60, height: 60), type: NVActivityIndicatorType.ballZigZag, color: .systemGreen)
         NetworkManager.shared.fetchBooks(bookTitle: bookTitle) { (success, books) in
             if success {
-                self.books = books
-                self.books = self.filterArray(array: &self.books)
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                if books.isEmpty {
                     self.stopAnimating()
+                    let alert = UIAlertController(title: "No results found", message: "", preferredStyle: .alert)
+                    let action = UIAlertAction(title: "Ok", style: .default)
+                    alert.addAction(action)
+                    self.present(alert, animated: true, completion: nil)
+                } else {
+                    self.books = books
+                    self.books = self.filterArray(array: &self.books)
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                        self.stopAnimating()
+                    }
                 }
             } else {
                 self.stopAnimating()
                 let alert = UIAlertController(title: "Please make sure you have internet connection", message: "", preferredStyle: .alert)
-                let action = UIAlertAction(title: "Ok", style: .default) { (action) in
-
-                }
+                let action = UIAlertAction(title: "Ok", style: .default)
                 alert.addAction(action)
                 self.present(alert, animated: true, completion: nil)
             }
