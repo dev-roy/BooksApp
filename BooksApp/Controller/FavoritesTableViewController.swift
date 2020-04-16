@@ -15,7 +15,6 @@ class FavoritesTableViewController: UITableViewController {
     // MARK: - Properties
     var bookModelArray = [BookModel]()
     let cellId = "FavoriteBookCell"
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -50,15 +49,6 @@ class FavoritesTableViewController: UITableViewController {
             }
         }
     }
-    
-    // MARK: - CoreData methods
-    func saveContext() {
-        do {
-            try context.save()
-        } catch {
-            print("Error saving context \(error)")
-        }
-    }
 
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -87,7 +77,6 @@ extension FavoritesTableViewController: RemoveFavoriteDelegate {
     func removeFavoriteTapped(at indexPath: IndexPath) {
         BookManager.shared.deleteFromCoreData(at: indexPath, bookModelArray: &bookModelArray)
         bookModelArray.remove(at: indexPath.row)
-        BookManager.shared.saveContext()
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }

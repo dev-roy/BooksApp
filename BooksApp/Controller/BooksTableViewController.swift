@@ -124,7 +124,6 @@ extension BooksTableViewController: UISearchBarDelegate {
 // MARK: - CellButton Methods
 extension BooksTableViewController: AddFavoriteDelegate {
     func addToFavoritesTapped(at indexPath: IndexPath, isFavorite: Bool) {
-        //BookManager.shared.deleteMatches(at: indexPath, bookModelArray: &bookModels, booksArray: &books)
         if isFavorite {
             let bookModel = BookModel(context: context)
             bookModel.title = books[indexPath.row].title
@@ -135,12 +134,6 @@ extension BooksTableViewController: AddFavoriteDelegate {
             bookModel.isFavorite = true
             BookManager.shared.saveContext()
         } else {
-//            bookModels = BookManager.shared.loadBooks(bookModelArray: &bookModels)
-//            for item in bookModels {
-//                if item.title == books[indexPath.row].title {
-//                    context.delete(item)
-//                }
-//            }
             BookManager.shared.deleteMatches(at: indexPath, bookModelArray: &bookModels, booksArray: &books)
         }
     }

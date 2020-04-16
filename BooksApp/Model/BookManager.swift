@@ -41,10 +41,12 @@ class BookManager {
                 context.delete(item)
             }
         }
+        saveContext()
     }
     
     func deleteFromCoreData(at indexPath: IndexPath, bookModelArray: inout [BookModel]) {
         context.delete(bookModelArray[indexPath.row])
+        saveContext()
     }
     
     func filterArray(booksArray: inout [Book], bookModelArray: inout [BookModel]) -> [Book] {
