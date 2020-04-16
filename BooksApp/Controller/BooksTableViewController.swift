@@ -29,7 +29,8 @@ class BooksTableViewController: UITableViewController, NVActivityIndicatorViewab
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        loadBooks()
+        //loadBooks()
+        bookModels = BookManager.shared.loadBooks(bookModelArray: &bookModels)
         if removedFavorites {
             searchBook(query)
             removedFavorites = false
@@ -50,7 +51,7 @@ class BooksTableViewController: UITableViewController, NVActivityIndicatorViewab
                     self.present(alert, animated: true, completion: nil)
                 } else {
                     self.books = books
-                    self.books = self.filterArray(array: &self.books)
+                    self.books = BookManager.shared.filterArray(booksArray: &self.books, bookModelArray: &self.bookModels)
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
                         self.stopAnimating()
@@ -72,45 +73,6 @@ class BooksTableViewController: UITableViewController, NVActivityIndicatorViewab
                 let book = books[indexPath.row]
                 let controller = segue.destination as! BookDetailViewController
                 controller.detailBook = book
-            }
-        }
-    }
-    
-    // MARK: - CoreData methods
-    func saveContext() {
-        do {
-            try context.save()
-        } catch {
-            print("Error saving context \(error)")
-        }
-    }
-    
-    func loadBooks() {
-        let request: NSFetchRequest<BookModel> = BookModel.fetchRequest()
-        do {
-            bookModels = try context.fetch(request)
-        } catch {
-            print("Error fetching data from context \(error)")
-        }
-    }
-    
-    func filterArray(array: inout [Book]) -> [Book] {
-        for book in array {
-            for bookModel in bookModels {
-                if book.title == bookModel.title && book.author == bookModel.author {
-                    book.isFavorite = true
-                }
-            }
-            array.append(book)
-        }
-        return array
-    }
-    
-    func deleteMatches(at indexPath: IndexPath) {
-        loadBooks()
-        for item in bookModels {
-            if item.title == books[indexPath.row].title {
-                context.delete(item)
             }
         }
     }
@@ -162,7 +124,7 @@ extension BooksTableViewController: UISearchBarDelegate {
 // MARK: - CellButton Methods
 extension BooksTableViewController: AddFavoriteDelegate {
     func addToFavoritesTapped(at indexPath: IndexPath, isFavorite: Bool) {
-        deleteMatches(at: indexPath)
+        BookManager.shared.deleteMatches(at: indexPath, bookModelArray: &bookModels, booksArray: &books)
         if isFavorite {
             let bookModel = BookModel(context: context)
             bookModel.title = books[indexPath.row].title
@@ -171,9 +133,10 @@ extension BooksTableViewController: AddFavoriteDelegate {
             bookModel.thumbnailURL = books[indexPath.row].thumbnailURL
             bookModel.bookDescription = books[indexPath.row].description
             bookModel.isFavorite = true
-            saveContext()
+            BookManager.shared.saveContext()
         } else {
-            loadBooks()
+            //loadBooks()
+            bookModels = BookManager.shared.loadBooks(bookModelArray: &bookModels)
             for item in bookModels {
                 if item.title == books[indexPath.row].title {
                     context.delete(item)

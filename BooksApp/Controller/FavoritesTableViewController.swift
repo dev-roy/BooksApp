@@ -13,19 +13,18 @@ import SDWebImage
 class FavoritesTableViewController: UITableViewController {
     
     // MARK: - Properties
-    var books = [BookModel]()
+    var bookModelArray = [BookModel]()
     let cellId = "FavoriteBookCell"
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadBooks()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        loadBooks()
+        bookModelArray = BookManager.shared.loadBooks(bookModelArray: &bookModelArray)
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -35,11 +34,11 @@ class FavoritesTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueFromFavorite" {
             if let indexPath = tableView.indexPathForSelectedRow {
-                guard let title = books[indexPath.row].title else { return }
-                guard let author = books[indexPath.row].author else { return }
-                guard let thumbnailURL = books[indexPath.row].thumbnailURL else { return }
-                guard let publisher = books[indexPath.row].publisher else { return }
-                guard let description = books[indexPath.row].bookDescription else { return }
+                guard let title = bookModelArray[indexPath.row].title else { return }
+                guard let author = bookModelArray[indexPath.row].author else { return }
+                guard let thumbnailURL = bookModelArray[indexPath.row].thumbnailURL else { return }
+                guard let publisher = bookModelArray[indexPath.row].publisher else { return }
+                guard let description = bookModelArray[indexPath.row].bookDescription else { return }
                 let book = Book()
                 book.title = title
                 book.author = author
@@ -60,34 +59,25 @@ class FavoritesTableViewController: UITableViewController {
             print("Error saving context \(error)")
         }
     }
-    
-    func loadBooks() {
-        let request: NSFetchRequest<BookModel> = BookModel.fetchRequest()
-        do {
-            books = try context.fetch(request)
-        } catch {
-            print("Error fetching data from context \(error)")
-        }
-    }
 
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return books.count
+        return bookModelArray.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! FavoriteBookCell
-        let thumbnailURL = URL(string: books[indexPath.row].thumbnailURL ?? "")
+        let thumbnailURL = URL(string: bookModelArray[indexPath.row].thumbnailURL ?? "")
         cell.delegate = self
         cell.indexPath = indexPath
         if let url = thumbnailURL {
             cell.bookThumbnail.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.bookThumbnail.sd_setImage(with: url, placeholderImage: UIImage(named: "white"))
         }
-        cell.bookTitle.text = books[indexPath.row].title
-        cell.bookAuthor.text = books[indexPath.row].author
-        cell.bookPublisher.text = books[indexPath.row].publisher
+        cell.bookTitle.text = bookModelArray[indexPath.row].title
+        cell.bookAuthor.text = bookModelArray[indexPath.row].author
+        cell.bookPublisher.text = bookModelArray[indexPath.row].publisher
         return cell
     }
 }
@@ -95,9 +85,9 @@ class FavoritesTableViewController: UITableViewController {
 // MARK: - Extensions
 extension FavoritesTableViewController: RemoveFavoriteDelegate {
     func removeFavoriteTapped(at indexPath: IndexPath) {
-        context.delete(books[indexPath.row])
-        books.remove(at: indexPath.row)
-        saveContext()
+        BookManager.shared.deleteFromCoreData(at: indexPath, bookModelArray: &bookModelArray)
+        bookModelArray.remove(at: indexPath.row)
+        BookManager.shared.saveContext()
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
