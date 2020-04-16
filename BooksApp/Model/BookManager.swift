@@ -35,7 +35,7 @@ class BookManager {
     }
     
     func deleteMatches(at indexPath: IndexPath, bookModelArray: inout [BookModel], booksArray: inout [Book]) {
-        bookModelArray = BookManager.shared.loadBooks(bookModelArray: &bookModelArray)
+        bookModelArray = loadBooks(bookModelArray: &bookModelArray)
         for item in bookModelArray {
             if item.title == booksArray[indexPath.row].title {
                 context.delete(item)
