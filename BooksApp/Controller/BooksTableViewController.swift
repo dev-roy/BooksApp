@@ -15,7 +15,7 @@ class BooksTableViewController: UITableViewController, NVActivityIndicatorViewab
     // MARK: - Properties
     @IBOutlet weak var searchBar: UISearchBar!
     let cellId = "BookCell"
-    var books = [Book]()
+    var books = [BookViewModel]()
     var bookModels = [BookModel]()
     var removedFavorites = false
     var query = ""
@@ -47,7 +47,9 @@ class BooksTableViewController: UITableViewController, NVActivityIndicatorViewab
                     alert.addAction(action)
                     self.present(alert, animated: true, completion: nil)
                 } else {
-                    self.books = books
+                    //self.books = books
+//                    self.books = BookManager.shared.filterArray(booksArray: &self.books, bookModelArray: &self.bookModels)
+                    self.books = books.map({return BookViewModel(book: $0)})
                     self.books = BookManager.shared.filterArray(booksArray: &self.books, bookModelArray: &self.bookModels)
                     DispatchQueue.main.async {
                         self.tableView.reloadData()

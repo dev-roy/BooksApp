@@ -19,7 +19,7 @@ class BookDetailViewController: UIViewController {
     @IBOutlet weak var bookDescription: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
-    var detailBook: Book? {
+    var detailBook: BookViewModel? {
         didSet {
             configureView()
         }

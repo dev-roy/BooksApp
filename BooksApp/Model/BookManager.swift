@@ -27,7 +27,29 @@ final class BookManager {
         saveContext()
     }
     
-    func createNewBook(book: Book) {
+    func convertBookModelToBook(bookModel: BookModel) -> Book {
+        let book = Book()
+        if let title = bookModel.title {
+            book.title = title
+        }
+        if let author = bookModel.author {
+            book.author = author
+        }
+        if let thumbnailURL = bookModel.thumbnailURL {
+            book.thumbnailURL = thumbnailURL
+        }
+        if let publisher = bookModel.publisher {
+            book.publisher = publisher
+        }
+        if let description = bookModel.bookDescription {
+            book.description = description
+        }
+        book.isFavorite = bookModel.isFavorite
+        
+        return book
+    }
+    
+    func createNewBook(book: BookViewModel) {
         let bookModel = BookModel(context: context)
         bookModel.title = book.title
         bookModel.author = book.author
@@ -56,7 +78,7 @@ final class BookManager {
         return bookModelArray
     }
     
-    func deleteMatches(at indexPath: IndexPath, bookModelArray: inout [BookModel], booksArray: inout [Book]) {
+    func deleteMatches(at indexPath: IndexPath, bookModelArray: inout [BookModel], booksArray: inout [BookViewModel]) {
         bookModelArray = loadBooks(bookModelArray: &bookModelArray)
         for item in bookModelArray {
             if item.title == booksArray[indexPath.row].title {
@@ -71,7 +93,7 @@ final class BookManager {
         saveContext()
     }
     
-    func filterArray(booksArray: inout [Book], bookModelArray: inout [BookModel]) -> [Book] {
+    func filterArray(booksArray: inout [BookViewModel], bookModelArray: inout [BookModel]) -> [BookViewModel] {
         for book in booksArray {
             for bookModel in bookModelArray {
                 if book.title == bookModel.title && book.author == bookModel.author {

@@ -32,19 +32,10 @@ class FavoritesTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueFromFavorite" {
             if let indexPath = tableView.indexPathForSelectedRow {
-                guard let title = bookModelArray[indexPath.row].title else { return }
-                guard let author = bookModelArray[indexPath.row].author else { return }
-                guard let thumbnailURL = bookModelArray[indexPath.row].thumbnailURL else { return }
-                guard let publisher = bookModelArray[indexPath.row].publisher else { return }
-                guard let description = bookModelArray[indexPath.row].bookDescription else { return }
-                let book = Book()
-                book.title = title
-                book.author = author
-                book.publisher = publisher
-                book.thumbnailURL = thumbnailURL
-                book.description = description
+                let book = BookManager.shared.convertBookModelToBook(bookModel: bookModelArray[indexPath.row])
+                let bookViewModel = BookViewModel(book: book)
                 let controller = segue.destination as! BookDetailViewController
-                controller.detailBook = book
+                controller.detailBook = bookViewModel
             }
         }
     }

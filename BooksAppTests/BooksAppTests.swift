@@ -50,5 +50,23 @@ class BooksAppTests: XCTestCase {
         
         XCTAssertTrue(booksArray[1].isFavorite)
     }
+    
+    func testBookViewModel() {
+        let book = Book()
+        book.title = "A Song of Fire and Ice"
+        book.author = "George R. Martin"
+        book.thumbnailURL = "www.google.com"
+        book.description = "Very good book"
+        book.publisher = "Publishing House"
+        book.isFavorite = false
+        let bookViewModel = BookViewModel(book: book)
+        XCTAssertEqual(book.title, bookViewModel.title)
+        XCTAssertEqual(book.author, bookViewModel.author)
+        XCTAssertEqual(book.thumbnailURL, bookViewModel.thumbnailURL)
+        XCTAssertEqual(book.description, bookViewModel.description)
+        XCTAssertEqual(book.publisher, bookViewModel.publisher)
+        XCTAssertEqual(book.isFavorite, bookViewModel.isFavorite)
+    
+    }
 
 }
