@@ -17,8 +17,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="fCB-2H-wVa" kind="relationship" relationship="viewControllers" id="KYu-zh-HHt"/>
-                        <segue destination="hXw-2r-ecp" kind="relationship" relationship="viewControllers" id="h0r-OH-RgH"/>
+                        <segue destination="cKW-q4-dEb" kind="relationship" relationship="viewControllers" id="KYu-zh-HHt"/>
+                        <segue destination="UUl-u1-H3A" kind="relationship" relationship="viewControllers" id="h0r-OH-RgH"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AlG-4n-7Bs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -113,13 +113,13 @@
                             <outlet property="delegate" destination="hXw-2r-ecp" id="CfQ-K6-8iv"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Favorites" image="star" catalog="system" selectedImage="star.fill" id="0B2-9g-Ol7"/>
+                    <navigationItem key="navigationItem" title="Favorites" id="o4O-99-okR"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hEl-Pw-NYi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-620" y="341"/>
+            <point key="canvasLocation" x="289.85507246376812" y="340.84821428571428"/>
         </scene>
-        <!--Books-->
+        <!--Search-->
         <scene sceneID="RZB-Kn-H38">
             <objects>
                 <tableViewController id="fCB-2H-wVa" customClass="BooksTableViewController" customModule="BooksApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -216,25 +216,25 @@
                             <outlet property="delegate" destination="fCB-2H-wVa" id="6We-Eg-iNV"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Books" image="book" catalog="system" selectedImage="book.fill" id="ULk-W7-sUg"/>
+                    <navigationItem key="navigationItem" title="Search" id="jJo-LS-DKl"/>
                     <connections>
                         <outlet property="searchBar" destination="olf-0u-y9f" id="1sC-Hv-TrT"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0rK-lG-UYZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-620" y="-416"/>
+            <point key="canvasLocation" x="289.85507246376812" y="-416.51785714285711"/>
         </scene>
         <!--Book Detail View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="BookDetailViewController" customModule="BooksApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RyW-7n-yOf">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cDc-U9-hiq" userLabel="contentView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="540.5"/>
@@ -330,11 +330,49 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="511.59420289855075" y="-94.419642857142847"/>
+            <point key="canvasLocation" x="2331.8840579710145" y="-94.419642857142847"/>
+        </scene>
+        <!--Books-->
+        <scene sceneID="yXO-Eb-JWz">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cKW-q4-dEb" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Books" image="book" catalog="system" selectedImage="book.fill" id="ULk-W7-sUg"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="CNO-T5-PRd">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="fCB-2H-wVa" kind="relationship" relationship="rootViewController" id="crC-cx-E6w"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WRS-08-h6M" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-620.28985507246387" y="-416.51785714285711"/>
+        </scene>
+        <!--Favorites-->
+        <scene sceneID="BjJ-x8-7xA">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UUl-u1-H3A" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Favorites" image="star" catalog="system" selectedImage="star.fill" id="0B2-9g-Ol7"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="vXQ-3z-WJc">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="hXw-2r-ecp" kind="relationship" relationship="rootViewController" id="zp3-lr-1OI"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="y3f-Cf-ZTe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-620.28985507246387" y="340.84821428571428"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="lDZ-E8-wuo"/>
+        <segue reference="HCH-2M-V1c"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="book" catalog="system" width="128" height="101"/>
