@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CoreData
 import SDWebImage
 
 class FavoritesTableViewController: UITableViewController {

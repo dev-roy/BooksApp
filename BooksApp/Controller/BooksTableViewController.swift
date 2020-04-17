@@ -8,7 +8,6 @@
 
 import UIKit
 import SDWebImage
-import CoreData
 import NVActivityIndicatorView
 
 class BooksTableViewController: UITableViewController, NVActivityIndicatorViewable {

@@ -17,6 +17,8 @@ class BookDetailViewController: UIViewController {
     @IBOutlet weak var bookAuthor: UILabel!
     @IBOutlet weak var bookPublisher: UILabel!
     @IBOutlet weak var bookDescription: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    
     var detailBook: Book? {
         didSet {
             configureView()
@@ -48,6 +50,12 @@ class BookDetailViewController: UIViewController {
             }
             if let description = bookDescription {
                 description.text = "Description: \(book.description)"
+            }
+            if let date = dateLabel {
+                let formatter = DateFormatter()
+                formatter.dateFormat = "dd-MM-yyyy"
+                let currentDate = Date()
+                date.text = "Date requested: \(formatter.string(from: currentDate as Date))"
             }
         }
     }
