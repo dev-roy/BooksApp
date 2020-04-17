@@ -17,8 +17,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="cKW-q4-dEb" kind="relationship" relationship="viewControllers" id="KYu-zh-HHt"/>
-                        <segue destination="UUl-u1-H3A" kind="relationship" relationship="viewControllers" id="h0r-OH-RgH"/>
+                        <segue destination="cKW-q4-dEb" kind="relationship" relationship="viewControllers" id="5So-WT-E98"/>
+                        <segue destination="UUl-u1-H3A" kind="relationship" relationship="viewControllers" id="nOJ-PC-pha"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AlG-4n-7Bs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -225,7 +225,7 @@
             </objects>
             <point key="canvasLocation" x="289.85507246376812" y="-416.51785714285711"/>
         </scene>
-        <!--Book Detail View Controller-->
+        <!--Information-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="BookDetailViewController" customModule="BooksApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -318,7 +318,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="45w-ua-46z"/>
+                    <navigationItem key="navigationItem" title="Information" id="45w-ua-46z"/>
                     <connections>
                         <outlet property="bookAuthor" destination="deg-bj-uuK" id="bKX-v3-00L"/>
                         <outlet property="bookDescription" destination="5PU-nz-njL" id="J3Z-Qy-gNP"/>
@@ -330,7 +330,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2331.8840579710145" y="-94.419642857142847"/>
+            <point key="canvasLocation" x="2341" y="-94"/>
         </scene>
         <!--Books-->
         <scene sceneID="yXO-Eb-JWz">
@@ -372,7 +372,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="HCH-2M-V1c"/>
+        <segue reference="lDZ-E8-wuo"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="book" catalog="system" width="128" height="101"/>

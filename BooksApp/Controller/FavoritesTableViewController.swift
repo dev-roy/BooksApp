@@ -79,7 +79,9 @@ extension FavoritesTableViewController: RemoveFavoriteDelegate {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
-        let booksVC = self.tabBarController?.viewControllers?[0] as! BooksTableViewController
+        
+        let navigationVC = self.tabBarController?.viewControllers?[0] as! UINavigationController
+        let booksVC = navigationVC.viewControllers[0] as! BooksTableViewController
         booksVC.removedFavorites = true
     }
 }
