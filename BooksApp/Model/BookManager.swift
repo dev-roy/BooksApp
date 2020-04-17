@@ -9,13 +9,24 @@
 import UIKit
 import CoreData
 
-class BookManager {
+final class BookManager {
     
     // MARK: - Properties
     static let shared = BookManager()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     // MARK: - CoreData methods
+    func saveNewFavoriteBook(title: String, author: String, publisher: String, thumbnailURL: String, description: String, isFavorite: Bool) {
+        let bookModel = BookModel(context: context)
+        bookModel.title = title
+        bookModel.author = author
+        bookModel.publisher = publisher
+        bookModel.thumbnailURL = thumbnailURL
+        bookModel.bookDescription = description
+        bookModel.isFavorite = isFavorite
+        saveContext()
+    }
+    
     func saveContext() {
         do {
             try context.save()

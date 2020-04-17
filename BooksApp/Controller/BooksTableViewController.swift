@@ -18,7 +18,6 @@ class BooksTableViewController: UITableViewController, NVActivityIndicatorViewab
     let cellId = "BookCell"
     var books = [Book]()
     var bookModels = [BookModel]()
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var removedFavorites = false
     var query = ""
     
@@ -29,9 +28,8 @@ class BooksTableViewController: UITableViewController, NVActivityIndicatorViewab
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //loadBooks()
         bookModels = BookManager.shared.loadBooks(bookModelArray: &bookModels)
-        if removedFavorites {
+        if removedFavorites && query != "" {
             searchBook(query)
             removedFavorites = false
         }
@@ -125,14 +123,7 @@ extension BooksTableViewController: UISearchBarDelegate {
 extension BooksTableViewController: AddFavoriteDelegate {
     func addToFavoritesTapped(at indexPath: IndexPath, isFavorite: Bool) {
         if isFavorite {
-            let bookModel = BookModel(context: context)
-            bookModel.title = books[indexPath.row].title
-            bookModel.author = books[indexPath.row].author
-            bookModel.publisher = books[indexPath.row].publisher
-            bookModel.thumbnailURL = books[indexPath.row].thumbnailURL
-            bookModel.bookDescription = books[indexPath.row].description
-            bookModel.isFavorite = true
-            BookManager.shared.saveContext()
+            BookManager.shared.saveNewFavoriteBook(title: books[indexPath.row].title, author: books[indexPath.row].author, publisher: books[indexPath.row].publisher, thumbnailURL: books[indexPath.row].thumbnailURL, description: books[indexPath.row].description, isFavorite: true)
         } else {
             BookManager.shared.deleteMatches(at: indexPath, bookModelArray: &bookModels, booksArray: &books)
         }
