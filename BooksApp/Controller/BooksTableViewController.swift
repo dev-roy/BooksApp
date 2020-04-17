@@ -122,7 +122,7 @@ extension BooksTableViewController: UISearchBarDelegate {
 extension BooksTableViewController: AddFavoriteDelegate {
     func addToFavoritesTapped(at indexPath: IndexPath, isFavorite: Bool) {
         if isFavorite {
-            BookManager.shared.saveNewFavoriteBook(title: books[indexPath.row].title, author: books[indexPath.row].author, publisher: books[indexPath.row].publisher, thumbnailURL: books[indexPath.row].thumbnailURL, description: books[indexPath.row].description, isFavorite: true)
+            BookManager.shared.createNewBook(book: books[indexPath.row])
         } else {
             BookManager.shared.deleteMatches(at: indexPath, bookModelArray: &bookModels, booksArray: &books)
         }

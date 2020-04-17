@@ -27,6 +27,17 @@ final class BookManager {
         saveContext()
     }
     
+    func createNewBook(book: Book) {
+        let bookModel = BookModel(context: context)
+        bookModel.title = book.title
+        bookModel.author = book.author
+        bookModel.publisher = book.publisher
+        bookModel.thumbnailURL = book.thumbnailURL
+        bookModel.bookDescription = book.description
+        bookModel.isFavorite = true
+        saveContext()
+    }
+    
     func saveContext() {
         do {
             try context.save()

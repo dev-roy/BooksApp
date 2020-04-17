@@ -19,6 +19,7 @@ class FavoriteBookCell: UITableViewCell {
     @IBOutlet weak var bookTitle: UILabel!
     @IBOutlet weak var bookAuthor: UILabel!
     @IBOutlet weak var bookPublisher: UILabel!
+    @IBOutlet weak var removeFavoritesButton: UIButton!
     var delegate: RemoveFavoriteDelegate!
     var indexPath: IndexPath!
     var isFavorite = false
@@ -26,6 +27,10 @@ class FavoriteBookCell: UITableViewCell {
     // MARK: - Init
     override func awakeFromNib() {
         super.awakeFromNib()
+        removeFavoritesButton.titleLabel?.numberOfLines = 1;
+        removeFavoritesButton.titleLabel?.adjustsFontSizeToFitWidth = true;
+        removeFavoritesButton.titleLabel?.lineBreakMode = .byClipping;
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

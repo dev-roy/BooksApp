@@ -104,6 +104,7 @@
                                     <outlet property="bookPublisher" destination="3rc-W5-CuT" id="5Gc-LD-gIw"/>
                                     <outlet property="bookThumbnail" destination="swe-yw-QET" id="YJF-eO-uVy"/>
                                     <outlet property="bookTitle" destination="0M9-gC-IjT" id="kYP-bt-jaS"/>
+                                    <outlet property="removeFavoritesButton" destination="WG7-IK-XFO" id="rM5-tX-GsY"/>
                                     <segue destination="BYZ-38-t0r" kind="show" identifier="segueFromFavorite" id="HCH-2M-V1c"/>
                                 </connections>
                             </tableViewCell>
@@ -372,7 +373,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="lDZ-E8-wuo"/>
+        <segue reference="HCH-2M-V1c"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="book" catalog="system" width="128" height="101"/>
