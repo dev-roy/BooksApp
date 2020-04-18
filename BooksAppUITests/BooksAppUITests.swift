@@ -27,7 +27,11 @@ class BooksAppUITests: XCTestCase {
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
         app.launch()
-
+        let table = app.tables.element
+        XCTAssertTrue(table.exists)
+        app.tables.searchFields["Search your book"].tap()
+        app.searchFields["Search your book"].typeText("Spiderman")
+        app.buttons["Search"].tap()
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
