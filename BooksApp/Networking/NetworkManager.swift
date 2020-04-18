@@ -17,7 +17,7 @@ class NetworkManager {
     func fetchBooks(bookTitle: String, completion: @escaping(_ success: Bool, _ arr: [Book]) -> ()) {
         DispatchQueue.global(qos: .background).async {
             guard let queryString = bookTitle.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
-            AF.request("https://www.googleapis.com/books/v1/volumes?q=\(queryString)").validate().responseJSON { (response) in
+            AF.request("https://www.googleapis.com/books/v1/volumes?q=\(queryString)/maxResults=40").validate().responseJSON { (response) in
                 switch response.result {
                 case .success(let data):
                     let json: JSON = JSON(data)
